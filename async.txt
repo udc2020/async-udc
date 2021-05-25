@@ -1,0 +1,70 @@
+// callbackes 
+const expo =  (number ,time ,func) => func(number ** time)
+
+const displayData = data => console.log(`show number ${data}`)
+
+const displayData1 = data => console.log(`some number ${data}`)
+
+expo(10,3,displayData)
+expo(12,5,displayData1)
+
+//promises #1
+let udcPromis = new Promise((resolve,reject) =>{
+
+    let healthstat = false 
+    if (healthstat) {
+        resolve("i'm sick")
+        
+    }else{
+        reject(Error("no i'm fine!"))
+    }
+
+}).then(
+    (res) => console.log(res),
+    
+).catch(
+    (rej) => console.log(rej)
+)
+
+
+//promises with ajax
+const getWasim = () => {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.onload = () => {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                let wasim = JSON.parse(xhr.responseText)[2].name
+                resolve(wasim)
+            }else{
+                reject(Error(xhr.statusText))
+            }
+        }
+
+        xhr.open("GET", "https://raw.githubusercontent.com/udc2020/udc-api-ajax/main/api-udc-ajax.json", true)
+
+        xhr.send()
+
+    })
+}
+getWasim().then(
+    (res) =>console.log(res),
+    (rej) => console.log(rej)
+    
+    )
+
+
+//  async & await
+
+const getwasim = () => {
+
+    const url = "https://raw.githubusercontent.com/udc2020/udc-api-ajax/main/api-udc-ajax.json"
+
+    fetch(url)
+
+        .then(async (result) => await  result.json())
+        .then((res) => res[2])
+        .then((ws) => console.log(ws.skills))
+
+}
+
+getwasim()
